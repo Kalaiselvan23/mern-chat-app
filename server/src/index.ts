@@ -28,7 +28,7 @@ app.use("/api/contacts",contactRoute)
 
 mongoose.connect(config.dbURL).then(() => {
   console.log("Db connected");
-  app.listen(8000, () => {
+  const server=app.listen(8000, () => {
     console.log("App is listening in 8000");
   });
 });

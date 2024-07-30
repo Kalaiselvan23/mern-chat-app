@@ -16,9 +16,11 @@ import { setSelectedChatData, setSelectedChatType } from "@/slices/chatSlice"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { SquarePen } from "lucide-react"
+import searchGif from "@/assets/siri.gif"
 
 export function NewMessageDialog() {
     const [searchTerm, setSearchTerm] = useState("");
+    const [openDialog,setOpenDialog]=useState(false);
     const [contacts, setContacts] = useState([]);
     const dispatch=useDispatch();
     const handleChange = (event: any) => {
@@ -44,9 +46,10 @@ export function NewMessageDialog() {
         console.log(JSON.stringify(contact))
          dispatch(setSelectedChatData(contact))
          dispatch(setSelectedChatType("contact"))
+         setOpenDialog(false)
     }
     return (
-        <Dialog>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger asChild>
                 <Button variant="ghost">
                 <SquarePen />
@@ -78,6 +81,7 @@ export function NewMessageDialog() {
                     </div>
 
                 </div>
+                
                 <DialogFooter>
                     <Button type="submit">Save changes</Button>
                 </DialogFooter>

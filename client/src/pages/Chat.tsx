@@ -23,11 +23,9 @@ export default function Chat() {
   return (
     <div className="flex h-screen w-full mx-auto">
       <AllChats />
-      <div>
         {selectedChatData === undefined ? <div className="flex w-full h-full justify-center items-center">
           <p className="text-center">Please select the contact or message to chat</p>
         </div>:<ChatContainer/> }
-      </div>
     </div>
   )
 }

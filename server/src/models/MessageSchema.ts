@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-// TypeScript interface for message schema
 interface IMessage extends Document {
   sender: mongoose.Types.ObjectId;
   recipient: mongoose.Types.ObjectId;
@@ -42,3 +41,6 @@ const messageSchema = new Schema<IMessage>({
     default: Date.now,
   },
 });
+
+const Message=mongoose.model("Messages",messageSchema);
+export default Message

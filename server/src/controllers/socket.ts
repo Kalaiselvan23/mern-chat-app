@@ -1,6 +1,7 @@
 import { Server as SocketIOServer } from "socket.io";
 export const socketSetup = (server: any) => {
-  const io = new SocketIOServer({
+    console.log(`initiating connection....`)
+  const io = new SocketIOServer(server,{
     cors: {
       origin: "http://localhost:5173",
       methods: ["GET", "POST"],

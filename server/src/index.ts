@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 import config from "./configs";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import authRoute from "./routes/authRoute"
+import authRoute from "./routes/authRoute";
 import contactRoute from "./routes/contactRoutes";
+import { socketSetup } from "./controllers/socket";
 const app = express();
 
 app.use(express.json());
@@ -19,16 +20,18 @@ app.use(
       "Content-Type",
       "Authorization",
     ],
-     methods: "GET, POST, PUT, DELETE",
+    methods: "GET, POST, PUT, DELETE",
   })
 );
 
-app.use("/api/auth",authRoute)
-app.use("/api/contacts",contactRoute)
+app.use("/api/auth", authRoute);
+app.use("/api/contacts", contactRoute);
 
 mongoose.connect(config.dbURL).then(() => {
   console.log("Db connected");
-  const server=app.listen(8000, () => {
+  const server = app.listen(8000, () => {
     console.log("App is listening in 8000");
   });
+  console.log('connecting to socket...')
+  socketSetup(server);
 });

@@ -45,7 +45,9 @@ export function NewMessageDialog() {
         //update the selected contact in the redux
         console.log(JSON.stringify(contact))
          dispatch(setSelectedChatData(contact))
+         console.log()
          dispatch(setSelectedChatType("contact"))
+         console.log("the chat type and data is changed..")
          setOpenDialog(false)
     }
     return (

@@ -29,7 +29,8 @@ const MessageContainer = () => {
         if (selectedChatData._id) {
             if (selectedChatType === "contact") getMessages()
         }
-    }, [selectedChatData, selectedChatType, selectedChatMessages,dispatch,userInfo])
+    }, [selectedChatData._id, selectedChatType,userInfo._id])
+
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: 'smooth' });

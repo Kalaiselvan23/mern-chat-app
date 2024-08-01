@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import authRoute from "./routes/authRoute";
 import contactRoute from "./routes/contactRoutes";
 import { socketSetup } from "./controllers/socket";
+import messageRoute from "./routes/messageRoute";
 const app = express();
 
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use(
 
 app.use("/api/auth", authRoute);
 app.use("/api/contacts", contactRoute);
+app.use("/api/messages",messageRoute)
 
 mongoose.connect(config.dbURL).then(() => {
   console.log("Db connected");

@@ -9,7 +9,7 @@ export const socketSetup = (server: any) => {
       credentials: true,
     },
   });
-  
+
   // TO STORE ONLINE USERS
   const userSocketMap = new Map();
 
@@ -21,22 +21,29 @@ export const socketSetup = (server: any) => {
   };
 
   // SEND MESSAGE FUCNTION
-  const sendMessage = async (message:any) => {
-    const senderSocketId = userSocketMap.get(message.sender);
-    const recieverSocketId = userSocketMap.get(message.recipient);
-    const createMessage = await Message.create(message);
-    const messageData = await Message.findById(createMessage._id)
-      .populate("sender", "id email firstName lastName image color")
-      .populate("recipient", "id email firstName lastName image color");
-    if (recieverSocketId) {
-      io.to(recieverSocketId).emit("recieveMessage", messageData);
-    }
-    if (senderSocketId) {
-      io.to(senderSocketId).emit("recieveMessage", messageData);
+  const sendMessage = async (message: any) => {
+    try {
+      console.log("sending message ", message);
+      const senderSocketId = userSocketMap.get(message.sender);
+      const recieverSocketId = userSocketMap.get(message.recipient);
+      const createMessage = await Message.create(message);
+      const messageData = await Message.findById(createMessage._id)
+        .populate("sender", "id email firstName lastName image color")
+        .populate("recipient", "id email firstName lastName image color");
+      if (recieverSocketId) {
+        console.log('sending message to reciever..')
+        io.to(recieverSocketId).emit("recieveMessage", messageData);
+      }
+      if (senderSocketId) {
+        console.log('sending message to sender..')
+        io.to(senderSocketId).emit("recieveMessage", messageData);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  // CONNECTION 
+  // CONNECTION
   io.on("connection", (socket) => {
     const userId = socket.handshake.query.userId;
     if (userId) {
@@ -45,7 +52,7 @@ export const socketSetup = (server: any) => {
     } else {
       console.log("Userid not providd");
     }
-
+    socket.on("sendMessage", sendMessage);
     socket.on("disconnect", () => disconnectSocket(socket));
   });
 };
